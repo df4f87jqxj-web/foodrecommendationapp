@@ -18,12 +18,12 @@ interface HomeScreenProps {
   };
 }
 
-export function HomeScreen({ 
-  restaurants, 
-  userPreferences, 
-  onRestaurantClick, 
+export function HomeScreen({
+  restaurants,
+  userPreferences,
+  onRestaurantClick,
   onFilterClick,
-  activeFilters 
+  activeFilters
 }: HomeScreenProps) {
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
   const [selectedMapRestaurant, setSelectedMapRestaurant] = useState<Restaurant>();
@@ -31,10 +31,10 @@ export function HomeScreen({
 
   // Daily recommendation (random based on preferences)
   const dailyRecommendation = useMemo(() => {
-    const matching = restaurants.filter(r => 
+    const matching = restaurants.filter(r =>
       r.dietaryOptions.some(opt => userPreferences.includes(opt)) || userPreferences.length === 0
     );
-    return matching.length > 0 
+    return matching.length > 0
       ? matching[Math.floor(Math.random() * matching.length)]
       : restaurants[0];
   }, [restaurants, userPreferences]);
@@ -49,37 +49,37 @@ export function HomeScreen({
         const matchesCuisine = restaurant.cuisine.toLowerCase().includes(query);
         const matchesDistrict = restaurant.district.toLowerCase().includes(query);
         const matchesTags = restaurant.tags.some(tag => tag.toLowerCase().includes(query));
-        
+
         if (!matchesName && !matchesCuisine && !matchesDistrict && !matchesTags) {
           return false;
         }
       }
-      
+
       // District filter
       if (activeFilters.districts.length > 0 && !activeFilters.districts.includes(restaurant.district)) {
         return false;
       }
-      
+
       // Price level filter
       if (activeFilters.priceLevel.length > 0 && !activeFilters.priceLevel.includes(restaurant.priceLevel)) {
         return false;
       }
-      
+
       // Dietary preferences filter
       if (activeFilters.dietaryPreferences.length > 0) {
-        const hasMatchingPreference = activeFilters.dietaryPreferences.some(pref => 
+        const hasMatchingPreference = activeFilters.dietaryPreferences.some(pref =>
           restaurant.dietaryOptions.includes(pref)
         );
         if (!hasMatchingPreference) return false;
       }
-      
+
       return true;
     });
   }, [restaurants, activeFilters, searchQuery]);
 
-  const hasActiveFilters = 
-    activeFilters.districts.length > 0 || 
-    activeFilters.priceLevel.length > 0 || 
+  const hasActiveFilters =
+    activeFilters.districts.length > 0 ||
+    activeFilters.priceLevel.length > 0 ||
     activeFilters.dietaryPreferences.length > 0;
 
   return (
@@ -135,23 +135,27 @@ export function HomeScreen({
           )}
         </Button>
 
-        <div className="flex gap-2">
-          <Button
-            variant={viewMode === 'list' ? 'default' : 'outline'}
-            size="sm"
+        <div className="flex bg-gray-100 p-1 rounded-lg">
+          <button
             onClick={() => setViewMode('list')}
-            className={viewMode === 'list' ? 'bg-[#FF8C42] hover:bg-[#e67a32]' : ''}
+            className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-all ${viewMode === 'list'
+                ? 'bg-white text-[#FF8C42] shadow-sm'
+                : 'text-gray-500 hover:text-gray-700'
+              }`}
           >
             <List className="w-4 h-4" />
-          </Button>
-          <Button
-            variant={viewMode === 'map' ? 'default' : 'outline'}
-            size="sm"
+            Liste
+          </button>
+          <button
             onClick={() => setViewMode('map')}
-            className={viewMode === 'map' ? 'bg-[#FF8C42] hover:bg-[#e67a32]' : ''}
+            className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-all ${viewMode === 'map'
+                ? 'bg-white text-[#FF8C42] shadow-sm'
+                : 'text-gray-500 hover:text-gray-700'
+              }`}
           >
             <Map className="w-4 h-4" />
-          </Button>
+            Karte
+          </button>
         </div>
       </div>
 
@@ -173,8 +177,8 @@ export function HomeScreen({
               <div className="text-center py-12">
                 <p className="text-muted-foreground">Keine Restaurants gefunden.</p>
                 {searchQuery && (
-                  <Button 
-                    variant="link" 
+                  <Button
+                    variant="link"
                     onClick={() => setSearchQuery('')}
                     className="text-[#FF8C42] mt-2"
                   >
@@ -182,8 +186,8 @@ export function HomeScreen({
                   </Button>
                 )}
                 {hasActiveFilters && (
-                  <Button 
-                    variant="link" 
+                  <Button
+                    variant="link"
                     onClick={onFilterClick}
                     className="text-[#FF8C42] mt-2"
                   >

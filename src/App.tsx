@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { 
-  mockRestaurants, 
-  mockUsers, 
+import {
+  mockRestaurants,
+  mockUsers,
   mockPosts,
-  DietaryPreference, 
-  PriceLevel, 
+  DietaryPreference,
+  PriceLevel,
   District,
   Restaurant,
   User,
@@ -35,7 +35,7 @@ export default function App() {
   // User data
   const [favoriteRestaurants, setFavoriteRestaurants] = useState<string[]>([]);
   const [visitedRestaurants, setVisitedRestaurants] = useState<string[]>([]);
-  const [userPosts, setUserPosts] = useState<Post[]>(mockPosts);
+  const [userPosts, setUserPosts] = useState<Post[]>([]);
 
   // Filters
   const [filters, setFilters] = useState<{
@@ -156,9 +156,8 @@ export default function App() {
         <div className="flex items-center justify-around px-4 py-3">
           <button
             onClick={() => setActiveScreen('home')}
-            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors ${
-              activeScreen === 'home' ? 'text-[#FF8C42]' : 'text-gray-400'
-            }`}
+            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors ${activeScreen === 'home' ? 'text-[#FF8C42]' : 'text-gray-400'
+              }`}
           >
             <Home className="w-6 h-6" />
             <span className="text-xs">Home</span>
@@ -166,9 +165,8 @@ export default function App() {
 
           <button
             onClick={() => setActiveScreen('explore')}
-            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors ${
-              activeScreen === 'explore' ? 'text-[#FF8C42]' : 'text-gray-400'
-            }`}
+            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors ${activeScreen === 'explore' ? 'text-[#FF8C42]' : 'text-gray-400'
+              }`}
           >
             <Compass className="w-6 h-6" />
             <span className="text-xs">Discover</span>
@@ -185,9 +183,8 @@ export default function App() {
 
           <button
             onClick={() => setActiveScreen('feed')}
-            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors ${
-              activeScreen === 'feed' ? 'text-[#FF8C42]' : 'text-gray-400'
-            }`}
+            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors ${activeScreen === 'feed' ? 'text-[#FF8C42]' : 'text-gray-400'
+              }`}
           >
             <Users className="w-6 h-6" />
             <span className="text-xs">Feed</span>
@@ -195,9 +192,8 @@ export default function App() {
 
           <button
             onClick={() => setActiveScreen('profile')}
-            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors ${
-              activeScreen === 'profile' ? 'text-[#FF8C42]' : 'text-gray-400'
-            }`}
+            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors ${activeScreen === 'profile' ? 'text-[#FF8C42]' : 'text-gray-400'
+              }`}
           >
             <UserIcon className="w-6 h-6" />
             <span className="text-xs">Profil</span>

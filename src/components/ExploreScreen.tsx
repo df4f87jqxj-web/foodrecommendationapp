@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Restaurant } from '../data/mockData';
 import { RestaurantCard } from './RestaurantCard';
 import { TrendingUp, Flame, Sparkles, Clock, Award, MapPin } from 'lucide-react';
@@ -11,6 +11,8 @@ interface ExploreScreenProps {
 }
 
 export function ExploreScreen({ restaurants, onRestaurantClick }: ExploreScreenProps) {
+  const [activeTab, setActiveTab] = useState('trending');
+
   // Trending spots (highest rated)
   const trendingSpots = useMemo(() => {
     return [...restaurants]
@@ -52,7 +54,7 @@ export function ExploreScreen({ restaurants, onRestaurantClick }: ExploreScreenP
       acc[restaurant.district].push(restaurant);
       return acc;
     }, {} as Record<string, Restaurant[]>);
-    
+
     return Object.entries(grouped)
       .map(([district, spots]) => ({
         district,
@@ -75,32 +77,32 @@ export function ExploreScreen({ restaurants, onRestaurantClick }: ExploreScreenP
 
       {/* Content */}
       <div className="flex-1 overflow-auto">
-        <Tabs defaultValue="trending" className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="sticky top-0 bg-white border-b z-10">
             <TabsList className="w-full justify-start rounded-none h-auto p-0 bg-transparent">
-              <TabsTrigger 
-                value="trending" 
+              <TabsTrigger
+                value="trending"
                 className="rounded-none border-b-2 border-transparent data-[state=active]:border-[#FF8C42] data-[state=active]:bg-transparent data-[state=active]:text-[#FF8C42]"
               >
                 <TrendingUp className="w-4 h-4 mr-1" />
                 Trending
               </TabsTrigger>
-              <TabsTrigger 
-                value="hot" 
+              <TabsTrigger
+                value="hot"
                 className="rounded-none border-b-2 border-transparent data-[state=active]:border-[#FF8C42] data-[state=active]:bg-transparent data-[state=active]:text-[#FF8C42]"
               >
                 <Flame className="w-4 h-4 mr-1" />
                 Hot Spots
               </TabsTrigger>
-              <TabsTrigger 
-                value="new" 
+              <TabsTrigger
+                value="new"
                 className="rounded-none border-b-2 border-transparent data-[state=active]:border-[#FF8C42] data-[state=active]:bg-transparent data-[state=active]:text-[#FF8C42]"
               >
                 <Sparkles className="w-4 h-4 mr-1" />
                 Neu
               </TabsTrigger>
-              <TabsTrigger 
-                value="districts" 
+              <TabsTrigger
+                value="districts"
                 className="rounded-none border-b-2 border-transparent data-[state=active]:border-[#FF8C42] data-[state=active]:bg-transparent data-[state=active]:text-[#FF8C42]"
               >
                 <MapPin className="w-4 h-4 mr-1" />

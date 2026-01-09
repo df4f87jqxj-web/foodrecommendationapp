@@ -3,6 +3,9 @@ import { Star, MapPin, Phone, Clock, Heart, BookmarkPlus, Navigation, X } from '
 import { Button } from './ui/button';
 import { useState } from 'react';
 
+import { PlaceImage } from './PlaceImage';
+import { APIProvider } from '@vis.gl/react-google-maps';
+
 interface RestaurantDetailsScreenProps {
   restaurant: Restaurant;
   onClose: () => void;
@@ -12,8 +15,8 @@ interface RestaurantDetailsScreenProps {
   onToggleVisited: () => void;
 }
 
-export function RestaurantDetailsScreen({ 
-  restaurant, 
+export function RestaurantDetailsScreen({
+  restaurant,
   onClose,
   isFavorite,
   isVisited,
@@ -22,32 +25,33 @@ export function RestaurantDetailsScreen({
 }: RestaurantDetailsScreenProps) {
   return (
     <div className="fixed inset-0 bg-white z-50 overflow-auto">
-      {/* Hero Image */}
-      <div className="relative h-80">
-        <img 
-          src={restaurant.image} 
-          alt={restaurant.name}
-          className="w-full h-full object-cover"
-        />
-        <button 
-          onClick={onClose}
-          className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg"
-        >
-          <X className="w-6 h-6" />
-        </button>
-        
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
-          <h1 className="text-3xl text-white mb-2">{restaurant.name}</h1>
-          <div className="flex items-center gap-4 text-white/90">
-            <div className="flex items-center gap-1">
-              <Star className="w-5 h-5 fill-white" />
-              <span>{restaurant.rating}</span>
+      <APIProvider apiKey="AIzaSyAU4vapC_wzVkRNEwxG5g4HiRO-Dhe6Rag">
+        {/* Hero Image */}
+        <div className="relative h-80">
+          <PlaceImage
+            restaurantName={restaurant.name}
+            fallbackImage={restaurant.image}
+            className="w-full h-full object-cover"
+          />
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg"
+          >
+            <X className="w-6 h-6" />
+          </button>
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
+            <h1 className="text-3xl text-white mb-2">{restaurant.name}</h1>
+            <div className="flex items-center gap-4 text-white/90">
+              <div className="flex items-center gap-1">
+                <Star className="w-5 h-5 fill-white" />
+                <span>{restaurant.rating}</span>
+              </div>
+              <span>{restaurant.priceLevel}</span>
+              <span>{restaurant.cuisine}</span>
             </div>
-            <span>{restaurant.priceLevel}</span>
-            <span>{restaurant.cuisine}</span>
           </div>
         </div>
-      </div>
+      </APIProvider>
 
       {/* Content */}
       <div className="p-6">
@@ -67,7 +71,10 @@ export function RestaurantDetailsScreen({
           >
             <BookmarkPlus className={`w-5 h-5 ${isVisited ? 'text-[#FF8C42]' : ''}`} />
           </Button>
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${restaurant.latitude},${restaurant.longitude}`, '_blank')}
+          >
             <Navigation className="w-5 h-5" />
           </Button>
         </div>
@@ -140,10 +147,8 @@ export function RestaurantDetailsScreen({
           </div>
         </div>
 
-        {/* CTA */}
-        <Button className="w-full bg-[#FF8C42] hover:bg-[#e67a32] text-white py-6">
-          Tisch reservieren
-        </Button>
+        {/* Map */}
+
       </div>
     </div>
   );
